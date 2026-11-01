@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Live availability, player counts and resource usage for Vinster's Lavalink server.">
+  <title>Lavalink Status</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/" aria-label="Lavalink Status home"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 10v8m6-13v18m8-18v18m6-13v8"/></svg><span>Lavalink<span class="muted"> / Status</span></span></a>
+      <div class="header-actions"><a href="/api/status">API <span aria-hidden="true">↗</span></a><button id="theme" aria-label="Switch color theme">Light theme</button></div>
+    </header>
+    <main>
+      <section class="intro">
+        <p class="eyebrow">INFRASTRUCTURE MONITOR</p>
+        <div class="headline"><h1>Keeping an ear on things.</h1><button class="refresh" id="refresh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/></svg><span>Refresh</span></button></div>
+        <p class="description">Live availability and resource usage from the Lavalink node.</p>
+      </section>
+      <section class="overview" aria-label="Service overview">
+        <div class="overall"><span class="indicator" id="overall-dot"></span><div><h2 id="overall-title">Checking the node</h2><p id="overall-note">Waiting for the first response.</p></div></div>
+        <div class="updated"><span id="freshness">Connecting…</span><span class="muted" id="interval">Updates automatically</span></div>
+      </section>
+      <p id="page-error" class="error" role="alert" hidden></p>
+      <section class="summary" aria-label="Live totals">
+        <div class="summary-cell"><p>Node availability</p><strong id="total-online">—</strong><span>nodes responding</span></div>
+        <div class="summary-cell"><p>Now playing</p><strong id="total-playing">—</strong><span>players actively playing</span></div>
+        <div class="summary-cell"><p>Total players</p><strong id="total-players">—</strong><span>created across all clients</span></div>
+      </section>
+      <div class="section-heading"><h2>Node overview</h2><span class="muted" id="node-count">01 NODE</span></div>
+      <section id="nodes" aria-label="Lavalink nodes"><div class="empty">Fetching the first snapshot…</div></section>
+      <section class="notes"><p><strong>Reading these numbers</strong> “Now playing” counts active playback. Total players also includes paused or idle players. These are node-wide counts, updated from Lavalink's stats endpoint.</p><p>Availability means the stats API is reachable. It does not test audio playback.</p></section>
+    </main>
+    <footer><span>Made by <strong id="operator">Vinster Dourado</strong></span><span><a href="https://github.com/imanimtiyaz20/lavalink-status" target="_blank" rel="noreferrer">Based on Lavalink Status ↗</a><span class="divider"> / </span><a href="/api/health">Health</a></span></footer>
+  </div>
+  <template id="node-template">
+    <article class="node-card">
+      <div class="node-heading"><div><div class="node-title"><span class="node-number"></span><h3 class="node-name"></h3></div><p class="node-address mono"></p></div><span class="state-pill"></span></div>
+      <p class="node-error error" hidden></p>
+      <div class="metrics">
+        <div><span>Now playing</span><strong data-field="playingPlayers">—</strong><small>active players</small></div>
+        <div><span>Players</span><strong data-field="players">—</strong><small>total on this node</small></div>
+        <div><span>Uptime</span><strong class="smaller" data-field="uptime">—</strong><small>since Lavalink started</small></div>
+        <div><span>Response</span><strong data-field="latencyMs">—</strong><small>stats request</small></div>
+      </div>
+      <div class="resources">
+        <div class="resource"><div><span>Memory</span><strong class="memory-value mono"></strong></div><progress class="memory-bar" max="100" value="0" aria-label="Memory usage"></progress><small>Used / maximum JVM memory</small></div>
+        <div class="resource"><div><span>Lavalink CPU</span><strong class="cpu-value mono"></strong></div><progress class="cpu-bar" max="100" value="0" aria-label="Lavalink CPU load"></progress><small class="system-value"></small></div>
+      </div>
+      <details class="details"><summary><span>Server details</span><span class="version mono">Version pending</span></summary><div class="details-content"><dl><div><dt>Lavalink version</dt><dd class="detail-version"></dd></div><div><dt>Lavaplayer</dt><dd class="detail-lavaplayer"></dd></div><div><dt>Java runtime</dt><dd class="detail-jvm"></dd></div><div><dt>CPU cores</dt><dd class="detail-cores"></dd></div></dl><p class="info-warning" hidden></p><h4>Plugins</h4><div class="plugins chips"></div><h4>Enabled sources</h4><div class="sources chips"></div><h4>Filters</h4><div class="filters chips"></div></div></details>
+      <div class="node-foot"><span class="last-check"></span><div><button class="copy-address">Copy address</button><a class="badge-link">Status badge ↗</a></div></div>
+    </article>
+  </template>
+  <noscript><p class="error">Enable JavaScript to view live status, or open <a href="/api/status">the JSON status API</a>.</p></noscript>
+</body>
+</html>
