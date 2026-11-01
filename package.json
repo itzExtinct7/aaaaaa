@@ -1,0 +1,14 @@
+{
+  "name": "vinster-lavalink-status",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Standalone Lavalink v4 status website. No Discord bot or external packages.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test test/*.test.js",
+    "check": "node scripts/check.js"
+  },
+  "engines": { "node": ">=22.0.0" },
+  "license": "MIT"
+}
